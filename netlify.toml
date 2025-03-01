@@ -5,4 +5,24 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/polygon"
+  to = "/polygon.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects/*"
+  to = "/projects/:splat"
+  status = 200
+
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate" 
