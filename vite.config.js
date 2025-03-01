@@ -1,20 +1,13 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  // Base public path when served in production
+  base: '/',
+  // Build configuration
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
-    }
-  },
-  server: {
-    port: 3000,
-    open: true
+    // Generate source maps for better debugging
+    sourcemap: true,
   }
 }) 
