@@ -14,9 +14,6 @@ export default defineConfig({
         music: resolve(__dirname, 'projects/music.html'),
         motionGraphics: resolve(__dirname, 'projects/motion-graphics.html')
       }
-    },
-    outDir: 'dist',
-    emptyOutDir: true,
-    copyPublicDir: true
+    }
   }
 }) 
