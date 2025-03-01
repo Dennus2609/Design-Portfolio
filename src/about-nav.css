@@ -1,0 +1,167 @@
+/* Add Rotunda font face */
+@font-face {
+    font-family: 'Rotunda';
+    src: url('./fonts/Fontspring-DEMO-4a-rotunda-regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* About Page Navigation Styles */
+body .side-nav {
+    position: absolute;
+    left: 0;
+    top: clamp(180px, 25vh, 223px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.2vh, 12px);
+    padding-left: 24px;
+    width: 280px;
+}
+
+/* Dot styles */
+body .side-nav .dot-container {
+    position: absolute;
+    top: -68px;
+    right: 36px;
+    width: 14px;
+    height: 14px;
+}
+
+body .side-nav .dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+body .side-nav .dot-pulse {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 3s ease-in-out infinite;
+    filter: blur(10px);
+    opacity: 0.4;
+    z-index: 2;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.6;
+    }
+}
+
+/* Add divider line */
+body .side-nav::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 40px;
+    width: 1px;
+    height: calc(100% + 300px);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust main content position to align with navigation */
+body .main-content {
+    position: relative;
+    left: clamp(380px, 38vw, 520px);
+    top: clamp(180px, 25vh, 223px); /* Match side-nav top position */
+    width: clamp(500px, 70vw, 1200px); /* Increased width */
+}
+
+body .nav-item {
+    position: relative;
+    color: #666666;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    margin: 2px 0;
+    border-radius: 100px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+body .nav-item:hover {
+    color: #000000;
+    transform: translateX(4px);
+}
+
+body .nav-item.active {
+    color: #000000;
+    background-color: rgba(0, 0, 0, 0.03);
+    font-weight: 600;
+    transform: none;
+    padding: 8px 16px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    body .side-nav {
+        position: absolute;
+        left: var(--mobile-padding);
+        top: 100px;
+        flex-direction: row;
+        overflow-x: auto;
+        width: calc(100% - (var(--mobile-padding) * 2));
+        padding: 25px 0;
+        padding-left: 0;
+        gap: 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hide vertical divider line on mobile */
+    body .side-nav::after {
+        display: none;
+    }
+
+    /* Reset main content position for mobile */
+    body .main-content {
+        position: relative;
+        left: var(--mobile-padding);
+        top: 220px;
+        width: calc(100% - (var(--mobile-padding) * 2));
+    }
+
+    body .main-content .hero-text {
+        font-family: 'Rotunda', sans-serif;
+        font-size: 44px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        font-weight: normal;
+    }
+
+    body .nav-item {
+        padding: 8px 14px;
+    }
+
+    body .nav-item.active {
+        padding: 8px 14px;
+    }
+} 
+
+
+

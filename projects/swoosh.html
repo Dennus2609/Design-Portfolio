@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swoosh Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles.css">
+    <link rel="stylesheet" href="/src/project-pages.css">
+</head>
+<body>
+    <!-- Reusable Navigation Component -->
+    <header>
+        <a href="/index.html" class="logo" aria-label="Home">D</a>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="/index.html" class="nav-link">Home</a>
+                <div class="projects-section">
+                    <div class="projects-toggle nav-link active">Projects</div>
+                    <div class="projects-dropdown">
+                        <a href="/polygon.html" class="project-item">Polygon</a>
+                        <a href="/projects/swoosh.html" class="project-item active">
+                            <span class="current-page-dot"></span>
+                            Swoosh
+                        </a>
+                        <a href="/projects/itsfreedubai.html" class="project-item">itsfreedubai</a>
+                        <a href="/projects/architecture.html" class="project-item">Architecture</a>
+                        <a href="/projects/music.html" class="project-item">Music</a>
+                        <a href="/projects/motion-graphics.html" class="project-item">Motion Graphics</a>
+                    </div>
+                </div>
+                <a href="/about.html" class="nav-link">About</a>
+                <a href="/public/Dennis George Mathew - 2025 Resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link">Resume</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <picture>
+                <source 
+                    media="(max-width: 768px)" 
+                    srcset="/swoosh-mobileview-render.jpg"
+                >
+                <source 
+                    media="(min-width: 769px)" 
+                    srcset="/swoosh-desktopview-render.jpg"
+                >
+                <img 
+                    class="hero-video" 
+                    src="/swoosh-desktopview-render.jpg" 
+                    alt="Swoosh app interface showcase"
+                >
+            </picture>
+        </div>
+    </section>
+
+    <!-- Project Content -->
+    <div class="project-content">
+        <div class="project-details">
+            <div class="left-column">
+                <!-- Project title section -->
+                <div class="project-header">
+                    <div class="project-title">
+                        <span class="year">2023</span>
+                        <h1>Swoosh</h1>
+                    </div>
+                </div>
+
+                <!-- Roles section -->
+                <div class="section-group">
+                    <h2 class="section-title">roles</h2>
+                    <ul class="section-list">
+                        <li>UI/UX Designer</li>
+                        <li>Front end Development</li>
+                        <li>Prompt Engineering</li>
+                    </ul>
+                </div>
+
+                <!-- Tools section -->
+                <div class="section-group">
+                    <h2 class="section-title">tools</h2>
+                    <ul class="section-list">
+                        <li>Figma</li>
+                        <li>Kotlin</li>
+                        <li>Claude</li>
+                        <li>Chat GPT</li>
+                    </ul>
+                </div>
+
+                <!-- Mobile documentation button -->
+                <a href="https://www.behance.net/gallery/188219647/Swoosh-All-in-one-Cab-aggregator-app" 
+                   class="documentation-btn-mobile" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <svg width="273" height="66" viewBox="0 0 273 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_381_912)">
+                            <path d="M7.78656 62.1161L3.22656 55.3961H266.027V0.847656L270.347 6.19609V62.1161H7.78656Z" fill="black"/>
+                            <path d="M266.024 0.847656L270.344 6.19609V62.1161L266.024 55.3961L2.98438 55.3961V0.847656H266.024Z" fill="#A9A9A9"/>
+                            <path d="M2.98438 0.847656H266.024V55.3961L2.98438 55.3961V0.847656Z" fill="white" stroke="black" stroke-width="0.24"/>
+                        </g>
+                        <text class="mobile-text" x="50%" y="28" text-anchor="middle" 
+                              font-family="Inter" font-size="17.8" font-weight="600" fill="black"
+                              dominant-baseline="central" letter-spacing="-0.03em">
+                            View Full Documentation
+                        </text>
+                        <defs>
+                            <filter id="filter0_d_381_912" x="0.947188" y="0.728516" width="271.317" height="65.2267" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                <feOffset dy="1.92"/>
+                                <feGaussianBlur stdDeviation="0.96"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_381_912"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_381_912" result="shape"/>
+                            </filter>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="center-column">
+                <div class="project-description">
+                    <p>Swoosh is the idea of an interface i had to tackle my everyday mobility challenges of urban India by creating a unified cab booking app. A single-app solution streamlining city travel, eliminating the need to switch between apps like Ola and Uber whist providing key features like Fare Comparison, Live Tracking and Explore, enriching the commuting experience for the user. Basically, a Makemytrip for cabs!</p>
+                    
+                    <p>As a designer, the biggest challenge i faced was to have the the app coded out from scratch because of my lack of my lack of knowledge in coding and development. But the timing of the idea coincided with the launch of ChatGPT which gave me a launch pad to get started.</p>
+                    
+                    <p>Soon after, Swoosh in it's MVP format was coded and designed in just 7 days. Through interviews and initial user testings, I had accumulated a considerable amount critical feedback, further driving the vision of enhancing the user experience and having my idea and solutions validated. Quickly after, the UI/UX was refined on Figma and Coded out with the help of my friend, Mr.GPT. And finally, Under heavy cups of caffeine and sleepless night, Swoosh was launched a month later on the Playstore on October 20th 2023. In just 8 days post-launch, the app saw 2,500+ installations and keeps continuing to grow</p>
+                </div>
+                <a href="/projects/itsfreedubai.html" class="next-project">next project ></a>
+            </div>
+
+            <!-- Desktop documentation button -->
+            <div class="documentation-buttons">
+                <a href="https://www.behance.net/gallery/188219647/Swoosh-All-in-one-Cab-aggregator-app" 
+                   class="documentation-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <svg width="273" height="66" viewBox="0 0 273 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_381_912)">
+                            <path d="M7.78656 62.1161L3.22656 55.3961H266.027V0.847656L270.347 6.19609V62.1161H7.78656Z" fill="black"/>
+                            <path d="M266.024 0.847656L270.344 6.19609V62.1161L266.024 55.3961L2.98438 55.3961V0.847656H266.024Z" fill="#A9A9A9"/>
+                            <path d="M2.98438 0.847656H266.024V55.3961L2.98438 55.3961V0.847656Z" fill="white" stroke="black" stroke-width="0.24"/>
+                        </g>
+                        <text class="desktop-text" x="50%" y="28" text-anchor="middle" 
+                              font-family="Inter" font-size="17.8" font-weight="600" fill="black"
+                              dominant-baseline="central" letter-spacing="-0.03em">
+                            View Full Documentation →
+                        </text>
+                        <text class="mobile-text" x="50%" y="28" text-anchor="middle" 
+                              font-family="Inter" font-size="17.8" font-weight="600" fill="black"
+                              dominant-baseline="central" letter-spacing="-0.03em">
+                            View Full Documentation
+                        </text>
+                        <defs>
+                            <filter id="filter0_d_381_912" x="0.947188" y="0.728516" width="271.317" height="65.2267" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                <feOffset dy="1.92"/>
+                                <feGaussianBlur stdDeviation="0.96"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_381_912"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_381_912" result="shape"/>
+                            </filter>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html> 

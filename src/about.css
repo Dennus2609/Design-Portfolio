@@ -1,0 +1,1257 @@
+/* About Page Styles */
+@font-face {
+    font-family: 'Rotunda';
+    src: url('./fonts/Rotunda-Regular.woff2') format('woff2'),
+         url('./fonts/Rotunda-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    --header-height: clamp(60px, 8vh, 80px);
+    --side-padding: clamp(24px, 3vw, 67.68px);
+    --nav-font-size: clamp(13px, 1vw, 14px);
+    --logo-font-size: clamp(20px, 2vw, 23px);
+    --hero-font-size: clamp(42px, 8vw, 82px);
+    --mobile-padding: 16px;
+    --tablet-padding: 40px;
+    --desktop-padding: 30px;
+    
+    /* Dark theme colors */
+    --bg-primary: #111111;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A0A0A0;
+    --accent-color: #2A2A2A;
+    --border-color: #3a3a3a;
+    --hover-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Header and Logo styles */
+header {
+    position: absolute;
+    padding: 20px 24px;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: none;
+    pointer-events: none;
+}
+
+.logo {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--logo-font-size, 20px);
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.69px;
+    pointer-events: auto;
+    position: absolute;
+    left: 24px;
+    top: 22px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    background: var(--hover-color);
+}
+
+/* Side Navigation */
+.side-nav {
+    position: absolute;
+    left: 0;
+    top: clamp(180px, 25vh, 223px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.2vh, 12px);
+    padding-left: 24px;
+}
+
+/* Add divider line */
+.side-nav::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 40px;
+    width: 1px;
+    height: calc(100% + 300px);
+    background: var(--border-color);
+}
+
+.nav-item {
+    position: relative;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 16px;
+    margin: 2px 0;
+    border-radius: 100px;
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    width: fit-content;
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
+    transform: translateX(4px);
+    background: var(--hover-color);
+}
+
+.nav-item.active {
+    color: var(--text-primary);
+    background-color: var(--accent-color);
+    font-weight: 600;
+    transform: none;
+}
+
+/* Main Navigation */
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: auto;
+    position: absolute;
+    right: 32px;
+    top: 22px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(17, 17, 17, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 100px;
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* Navigation Links */
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--nav-font-size);
+    padding: 8px 20px;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: var(--hover-color);
+}
+
+.nav-link.active {
+    color: var(--text-primary);
+    background-color: var(--accent-color);
+    font-weight: 600;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.nav-link.active:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Projects Dropdown */
+.nav-container .projects-section {
+    position: relative;
+}
+
+.nav-container .projects-toggle {
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+    padding: 8px 20px;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.nav-container .projects-toggle:hover {
+    color: var(--text-primary);
+    background: var(--hover-color);
+}
+
+.nav-container .projects-toggle.active {
+    color: var(--text-primary);
+    background-color: var(--accent-color);
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+}
+
+.nav-container .projects-toggle.active:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container .projects-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: rgba(17, 17, 17, 0.95);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 12px;
+    min-width: 220px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 30;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-container .projects-section:hover .projects-dropdown {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-container .project-item {
+    position: relative;
+    display: block;
+    padding: 14px 18px;
+    padding-left: 24px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--nav-font-size);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.nav-container .project-item:hover {
+    color: var(--text-primary) !important;
+    background: var(--hover-color);
+    border-color: var(--border-color);
+}
+
+.nav-container .project-item.active {
+    color: var(--text-primary) !important;
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+}
+
+.nav-container .project-item.active:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Current page dot indicator */
+.nav-container .project-item.active .current-page-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #FF4141;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    left: clamp(340px, 38vw, 520px);
+    top: clamp(160px, 22vh, 205px);
+    width: clamp(400px, 60vw, 900px);
+}
+
+.hero-text {
+    font-family: 'Rotunda', sans-serif;
+    font-weight: normal;
+    font-size: clamp(42px, 5vw, 82px);
+    line-height: 1.01;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    max-width: 800px;
+}
+
+.hero-text .highlight {
+    color: #ffffff;
+}
+
+.hero-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* About Section */
+.about-section {
+    margin-top: 400px;
+    padding: 120px var(--side-padding);
+    position: relative;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+}
+
+.section-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    width: 100%;
+    opacity: 1;
+}
+
+.about-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr 300px;
+    gap: 80px;
+}
+
+.about-title {
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.about-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 640px;
+}
+
+.about-contact {
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.about-contact a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+}
+
+.about-contact a:hover {
+    opacity: 0.7;
+}
+
+/* Career and Education Sections */
+.career-section,
+.education-section {
+    position: relative;
+    background: var(--bg-primary);
+    padding: 0 var(--side-padding);
+}
+
+.career-section {
+    margin-top: 20px;
+}
+
+.education-section {
+    margin-top: 80px;
+}
+
+.career-section::before,
+.education-section::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: var(--side-padding);
+    right: var(--side-padding);
+    height: 1px;
+    background: var(--border-color);
+}
+
+.career-container,
+.education-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr 300px;
+    gap: 80px;
+    padding: 40px 0;
+}
+
+.career-table,
+.education-table {
+    width: 100%;
+    border-collapse: collapse;
+    grid-column: 2 / -1;
+    border-top: 1px solid var(--border-color);
+}
+
+.career-table tr,
+.education-table tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.career-table td,
+.education-table td {
+    padding: 32px 0;
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    vertical-align: top;
+}
+
+.career-table td:first-child,
+.education-table td:first-child {
+    width: 140px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.education-table td:first-child {
+    width: 240px;
+}
+
+.career-table td:nth-child(2),
+.career-table td:nth-child(3),
+.education-table td:nth-child(2) {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Collaboration Section */
+.collaborate-section {
+    position: relative;
+    background: var(--bg-primary);
+    padding: 40px var(--side-padding);
+    height: 140px;
+    display: flex;
+    align-items: center;
+    margin-top: 80px;
+    cursor: pointer;
+    overflow: hidden;
+    text-decoration: none;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.collaborate-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 64px;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin: 0;
+    position: relative;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.collaborate-email {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 64px;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.collaborate-section:hover .collaborate-title {
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.collaborate-section:hover .collaborate-email {
+    transform: translateY(-100%);
+    opacity: 1;
+}
+
+.collaborate-arrow-container {
+    position: relative;
+    width: 119.08px;
+    height: 76.48px;
+    overflow: hidden;
+    border-radius: 38.24px;
+}
+
+.collaborate-arrow,
+.collaborate-arrow-hover {
+    position: absolute;
+    width: 119.08px;
+    height: 76.48px;
+    right: 0;
+    pointer-events: none;
+}
+
+/* Update the arrow colors for dark mode */
+.collaborate-section .collaborate-arrow rect {
+    fill: #333333 !important;
+    transition: fill 0.4s ease;
+}
+
+.collaborate-section .collaborate-arrow path {
+    stroke: var(--text-primary);
+}
+
+.collaborate-section:hover .collaborate-arrow rect {
+    fill: #FFDB01 !important;
+}
+
+.collaborate-section:hover .collaborate-arrow path {
+    stroke: #000000;
+}
+
+/* Remove the before/after pseudo-elements since we're using borders */
+.collaborate-section::before,
+.collaborate-section::after {
+    display: none;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 42px;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+}
+
+/* Career and Education Section Headers */
+.career-section h2,
+.education-section h2 {
+    color: var(--text-primary);
+    font-size: 42px;
+    font-weight: 500;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+}
+
+/* Footer Styles */
+.site-footer {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--side-padding);
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: 232px 1fr 300px;
+    align-items: center;
+    height: 40px;
+    position: relative;
+}
+
+.footer-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+}
+
+.center-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.center-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    position: relative;
+    transition: opacity 0.2s ease;
+}
+
+.center-links a:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--border-color);
+}
+
+.footer-year {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.footer-links a:hover {
+    opacity: 0.7;
+}
+
+/* Mobile Footer Styles */
+.mobile-footer {
+    display: none;
+    background: var(--bg-primary);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    border-top: 1px solid var(--border-color);
+}
+
+.mobile-footer-container {
+    width: 100%;
+}
+
+.mobile-footer-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 40px;
+    position: relative;
+}
+
+.mobile-footer-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    transition: opacity 0.2s ease;
+}
+
+.mobile-footer-links a:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--border-color);
+}
+
+.mobile-footer-links a:hover {
+    opacity: 0.7;
+}
+
+/* Mobile Menu */
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    z-index: 100;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin: 5px 0;
+    background-color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 80;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    padding: 120px 40px;
+    transition: right 0.3s ease;
+    z-index: 90;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-nav.active {
+    right: 0;
+}
+
+.mobile-nav .nav-link {
+    color: var(--text-secondary);
+    display: block;
+    padding: 16px 0;
+    font-size: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav .nav-link:hover {
+    color: var(--text-primary);
+    background: transparent;
+}
+
+.mobile-nav .nav-link.active {
+    color: var(--text-primary);
+    background-color: var(--accent-color);
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 4px 0;
+    border: 1px solid var(--border-color);
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .main-content {
+        width: 65vw;
+        padding-right: var(--tablet-padding);
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --side-padding: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .side-nav {
+        position: absolute;
+        left: var(--mobile-padding);
+        top: 100px;
+        flex-direction: row;
+        overflow-x: auto;
+        width: calc(100% - (var(--mobile-padding) * 2));
+        padding: 25px 0;
+        padding-left: 0;
+        gap: 12px;
+        border-bottom: 1px solid var(--border-color) !important;
+    }
+
+    /* Hide vertical divider line on mobile */
+    .side-nav::after {
+        display: none;
+    }
+
+    /* Reset main content position for mobile */
+    .main-content {
+        position: relative;
+        left: var(--mobile-padding);
+        top: 220px;
+        width: calc(100% - (var(--mobile-padding) * 2));
+    }
+
+    .main-content .hero-text {
+        font-family: 'Rotunda', sans-serif;
+        font-size: 44px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        font-weight: normal;
+    }
+
+    .nav-item {
+        padding: 8px 14px;
+    }
+
+    .nav-item.active {
+        padding: 8px 14px;
+    }
+
+    /* Show hamburger menu */
+    .hamburger-menu {
+        display: block;
+    }
+
+    /* Hide main navigation */
+    .main-nav {
+        display: none;
+    }
+
+    .about-section {
+        margin-top: 500px;
+        padding: 60px var(--mobile-padding);
+    }
+
+    .about-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .about-title {
+        font-size: 14px;
+        color: var(--text-primary);
+    }
+
+    .about-text {
+        font-size: 16px;
+        color: var(--text-secondary);
+    }
+
+    .about-contact {
+        margin-top: 20px;
+    }
+
+    .career-section,
+    .education-section {
+        padding: 0 var(--mobile-padding);
+    }
+
+    .career-container,
+    .education-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .career-table,
+    .education-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .career-table td,
+    .education-table td {
+        padding: 24px 0;
+        font-size: 14px;
+        color: var(--text-primary);
+    }
+
+    .site-footer {
+        display: none;
+    }
+
+    .mobile-footer {
+        display: block;
+    }
+
+    .collaborate-section {
+        padding: 32px var(--mobile-padding);
+        height: auto;
+        margin-top: 60px;
+    }
+
+    .collaborate-title .mobile-title {
+        display: block;
+    }
+
+    .collaborate-title .desktop-title {
+        display: none;
+    }
+
+    /* Remove text transitions on mobile */
+    .collaborate-title,
+    .collaborate-email {
+        font-size: 42px;
+        transition: none;
+    }
+
+    .collaborate-section:hover .collaborate-title {
+        transform: none;
+        opacity: 1;
+    }
+
+    .collaborate-section:hover .collaborate-email {
+        transform: none;
+        opacity: 0;
+    }
+
+    .collaborate-arrow-container {
+        width: 100px;
+        height: 65px;
+        border-radius: 32.5px;
+    }
+
+    .collaborate-arrow,
+    .collaborate-arrow-hover {
+        width: 100px;
+        height: 65px;
+    }
+
+    .section-title,
+    .career-section h2,
+    .education-section h2 {
+        font-size: 36px;
+        margin-bottom: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-section {
+        margin-top: 500px;
+        padding: 40px var(--mobile-padding);
+    }
+
+    .about-container {
+        gap: 32px;
+    }
+
+    .hero-text {
+        font-size: 36px;
+    }
+
+    .collaborate-section {
+        padding: 24px var(--mobile-padding);
+    }
+
+    .collaborate-title,
+    .collaborate-email {
+        font-size: 36px;
+    }
+
+    .collaborate-arrow-container {
+        width: 85px;
+        height: 55px;
+        border-radius: 27.5px;
+    }
+
+    .collaborate-arrow,
+    .collaborate-arrow-hover {
+        width: 85px;
+        height: 55px;
+    }
+
+    .mobile-footer-links a {
+        font-size: 13px;
+    }
+
+    .section-title,
+    .career-section h2,
+    .education-section h2 {
+        font-size: 32px;
+        margin-bottom: 32px;
+    }
+}
+
+@media (max-height: 700px) {
+    .side-nav {
+        top: 100px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dot-pulse {
+        animation: none;
+    }
+}
+
+/* Add this at the end of the file to ensure these styles take precedence */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+.about-section,
+.career-section,
+.education-section,
+.site-footer,
+.mobile-footer {
+    background: var(--bg-primary) !important;
+}
+
+/* Add these important overrides at the end of the file */
+.hero-text,
+.section-title,
+.career-section h2,
+.education-section h2,
+.collaborate-title,
+.collaborate-email {
+    color: var(--text-primary) !important;
+}
+
+.side-nav::after {
+    background: var(--border-color) !important;
+}
+
+.collaborate-section {
+    background: var(--bg-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Ensure side navigation tabs are properly styled */
+.side-nav .nav-item {
+    color: var(--text-secondary);
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.side-nav .nav-item:hover {
+    color: var(--text-primary);
+    background: var(--hover-color);
+}
+
+.side-nav .nav-item.active {
+    color: var(--text-primary);
+    background: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .side-nav {
+        border-bottom-color: var(--border-color) !important;
+    }
+    
+    .collaborate-title,
+    .collaborate-email {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 480px) {
+    .collaborate-title,
+    .collaborate-email {
+        font-size: 36px;
+    }
+}
+
+/* Add these important overrides at the end of the file */
+.about-title,
+.about-text,
+.about-contact,
+.about-contact a,
+.career-table td,
+.education-table td,
+.footer-name,
+.center-links a,
+.footer-year,
+.mobile-footer-links a {
+    color: var(--text-primary) !important;
+}
+
+.about-text,
+.career-table td:first-child,
+.education-table td:first-child {
+    color: var(--text-secondary) !important;
+}
+
+.section-divider,
+.career-section::before,
+.education-section::before,
+.career-table,
+.education-table,
+.career-table tr,
+.education-table tr,
+.center-links a:not(:last-child)::after,
+.mobile-footer-links a:not(:last-child)::after {
+    border-color: var(--border-color) !important;
+}
+
+/* Mobile styles update */
+@media (max-width: 768px) {
+    .about-title {
+        font-size: 14px;
+        color: var(--text-primary);
+    }
+
+    .about-text {
+        font-size: 16px;
+        color: var(--text-secondary);
+    }
+
+    .career-table td,
+    .education-table td {
+        font-size: 14px;
+        color: var(--text-primary);
+    }
+
+    .career-table td:first-child,
+    .education-table td:first-child {
+        color: var(--text-secondary);
+    }
+}
+
+/* Add these important overrides at the end of the file */
+.logo,
+.nav-link,
+.projects-toggle,
+.mobile-nav .nav-link {
+    color: var(--text-primary) !important;
+}
+
+.nav-link:not(.active),
+.projects-toggle:not(.active),
+.mobile-nav .nav-link:not(.active) {
+    color: var(--text-secondary) !important;
+}
+
+.nav-container,
+.projects-dropdown,
+.mobile-nav {
+    background: rgba(17, 17, 17, 0.95) !important;
+    border-color: var(--border-color) !important;
+}
+
+.hamburger-menu span {
+    background-color: var(--text-primary) !important;
+}
+
+/* Mobile styles update */
+@media (max-width: 768px) {
+    .mobile-nav .nav-link {
+        border-color: var(--border-color);
+    }
+    
+    .nav-container {
+        background: rgba(17, 17, 17, 0.95);
+    }
+}
+
+/* Add these important overrides at the end of the file */
+.nav-link.active,
+.projects-toggle.active,
+.project-item.active,
+.mobile-nav .nav-link.active {
+    color: var(--text-primary) !important;
+    background-color: var(--accent-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Enhance active state visibility */
+.nav-link.active::after,
+.projects-toggle.active::after,
+.project-item.active::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 1px solid var(--border-color);
+    pointer-events: none;
+}
+
+/* Projects Dropdown - Enhanced Dark Mode */
+.nav-container .projects-dropdown {
+    background: rgba(17, 17, 17, 0.95);
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.nav-container .project-item {
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-container .project-item:hover {
+    color: var(--text-primary) !important;
+    background: var(--hover-color);
+    border-color: var(--border-color);
+}
+
+.nav-container .project-item.active {
+    color: var(--text-primary) !important;
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Add these important overrides at the end of the file */
+.nav-container .project-item {
+    color: var(--text-secondary) !important;
+}
+
+.nav-container .project-item:hover,
+.nav-container .project-item.active {
+    color: var(--text-primary) !important;
+}
+
+/* Mobile Navigation Dropdown */
+.mobile-nav .projects-dropdown {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+.mobile-nav .project-item {
+    color: var(--text-secondary) !important;
+}
+
+.mobile-nav .project-item:hover {
+    color: var(--text-primary) !important;
+    background: var(--hover-color);
+} 

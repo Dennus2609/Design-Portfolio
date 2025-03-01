@@ -1,0 +1,76 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroVideo = document.getElementById('heroVideo');
+        const staticMedia = document.querySelector('.static-media');
+        const playButton = document.querySelector('.play-button');
+        
+        // Function to switch to static image and show play button
+        function useStaticImage() {
+            if (heroVideo) {
+                heroVideo.style.display = 'none';
+            }
+            if (staticMedia) {
+                staticMedia.style.display = 'block';
+                staticMedia.style.opacity = '1';
+            }
+            
+            if (playButton) {
+                setTimeout(() => {
+                    playButton.classList.add('visible');
+                    setTimeout(() => {
+                        playButton.classList.add('expanded');
+                    }, 300);
+                }, 500);
+            }
+        }
+
+        // Function to start video playback
+        function startVideo() {
+            if (!heroVideo) return;
+            
+            if (playButton) {
+                playButton.classList.remove('visible', 'expanded');
+            }
+            if (staticMedia) {
+                staticMedia.style.display = 'none';
+            }
+            
+            heroVideo.style.display = 'block';
+            heroVideo.currentTime = 0;
+            
+            const playPromise = heroVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.error('Video playback failed:', error);
+                    useStaticImage();
+                });
+            }
+        }
+
+        // Add click handler to play button
+        if (playButton) {
+            playButton.addEventListener('click', startVideo);
+        }
+
+        // Initial attempt to autoplay video
+        if (heroVideo) {
+            heroVideo.style.display = 'block';
+            if (staticMedia) {
+                staticMedia.style.display = 'none';
+            }
+            
+            const initialPlayAttempt = heroVideo.play();
+            
+            if (initialPlayAttempt !== undefined) {
+                initialPlayAttempt.catch(() => {
+                    useStaticImage();
+                });
+            } else {
+                useStaticImage();
+            }
+        } else {
+            useStaticImage();
+        }
+    });
+</script> 

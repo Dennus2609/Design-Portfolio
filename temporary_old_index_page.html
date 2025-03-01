@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles.css">
+    <style>
+        body {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loaded {
+            opacity: 1;
+            visibility: visible;
+            transition: none;
+        }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo" aria-label="Home">D</a>
+      <nav class="main-nav">
+        <div class="nav-container">
+          <a href="/" class="nav-link">Home</a>
+          <div class="projects-section">
+            <div class="projects-toggle nav-link">Projects</div>
+            <div class="projects-dropdown">
+              <a href="/polygon.html" class="project-item">Polygon</a>
+              <a href="/projects/swoosh.html" class="project-item">Swoosh</a>
+              <a href="/projects/itsfreedubai.html" class="project-item">itsfreedubai</a>
+              <a href="/projects/architecture.html" class="project-item">Architecture</a>
+              <a href="/projects/music.html" class="project-item">Music</a>
+              <a href="/projects/motion-graphics.html" class="project-item">Motion Graphics</a>
+            </div>
+          </div>
+          <a href="/index.html" class="nav-link active">About</a>
+          <a href="/resume.html" class="nav-link">Resume</a>
+        </div>
+      </nav>
+    </header>
+    
+    <!-- Add the dot and line -->
+    <div class="dot-container">
+      <div class="dot"></div>
+      <div class="dot-pulse"></div>
+    </div>
+    <div class="vertical-line"></div>
+    
+    <nav class="side-nav">
+      <a href="#" class="nav-item active">For anybody</a>
+      <a href="#" class="nav-item">For Recruiters</a>
+      <a href="#" class="nav-item">3D Design</a>
+      <a href="#" class="nav-item">Project Managers</a>
+      <a href="#" class="nav-item">Visual Design</a>
+      <a href="#" class="nav-item">Development</a>
+      <a href="#" class="nav-item">Video production</a>
+      <a href="#" class="nav-item">Web and app design</a>
+    </nav>
+
+    <main class="main-content">
+      <p class="hero-text">
+        I bring end to end product acumen from vision and strategy to discovery and delivery I will partner closely with you to generate the highest impact possible
+      </p>
+    </main>
+
+    <section class="about-section">
+        <hr class="section-divider">
+        <div class="about-container">
+            <div class="about-title">A little about me</div>
+            <div class="about-content">
+                <p class="about-text">
+                    I try to be a little bit of everything: music lover, sports fan, drifting skater, tech enthusiast,
+                    budding runner, fine artist, typography nerd, sneakerhead, and keyboard fanatic.
+                </p>
+                <p class="about-text">
+                    I love creating and feel like there's never enough time to dabble in everything I want to -
+                    from UI/UX, Web design, 3D design, illustration, animation, branding, wacky interfaces,
+                    building apps, making stuff just makes me feel fulfilled.
+                </p>
+                <p class="about-text">
+                    I love what I do, I'm lucky to do it, and maybe we'll be doing it together!
+                </p>
+            </div>
+            <div class="about-contact">
+                Take a peek at my resume or hit me up at
+                <a href="mailto:dennisgeorgem@outlook.com">dennisgeorgem@outlook.com</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="career-section">
+        <div class="career-container">
+            <h2 class="section-title">Career</h2>
+            <table class="career-table">
+                <tbody>
+                    <tr>
+                        <td>2024 - Present</td>
+                        <td>Lead Visual Designer</td>
+                        <td>Dubai Police</td>
+                        <td>Dubai, UAE</td>
+                    </tr>
+                    <tr>
+                        <td>2022 - 2024</td>
+                        <td>3D Designer</td>
+                        <td>Polygon</td>
+                        <td>Bangalore, India</td>
+                    </tr>
+                    <tr>
+                        <td>2022 - Present</td>
+                        <td>Creator</td>
+                        <td>itsfreedubai</td>
+                        <td>Dubai, UAE</td>
+                    </tr>
+                    <tr>
+                        <td>2020 - 2021</td>
+                        <td>Architect</td>
+                        <td>Greencurve</td>
+                        <td>Dubai, UAE</td>
+                    </tr>
+                    <tr>
+                        <td>2019 - 2019</td>
+                        <td>Design Intern</td>
+                        <td>Centreline Interiors</td>
+                        <td>Dubai, UAE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="education-section">
+        <div class="education-container">
+            <h2 class="section-title">Education</h2>
+            <table class="education-table">
+                <tbody>
+                    <tr>
+                        <td>Bachelors of Architecture</td>
+                        <td>NIT Nagpur, India</td>
+                        <td>2022</td>
+                    </tr>
+                    <tr>
+                        <td>High School</td>
+                        <td>Delhi Private School, Dubai</td>
+                        <td>2022</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <a href="mailto:dennisgeorgem@outlook.com" class="collaborate-section">
+        <div class="collaborate-container">
+            <h2 class="collaborate-title">
+                <span class="desktop-title">Let's collaborate</span>
+                <span class="mobile-title">Let's jam</span>
+            </h2>
+            <div class="collaborate-email">dennisgeorgem@outlook.com</div>
+            <div class="collaborate-arrow-container">
+                <!-- Original arrow -->
+                <svg class="collaborate-arrow" width="120" height="78" viewBox="0 0 120 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.234375" y="0.638672" width="119.08" height="76.48" rx="38.24" fill="#EDEDED"/>
+                    <path d="M39.9531 38.6395C39.9531 38.6395 64.8464 38.6395 80.5931 38.6395M80.5931 38.6395C74.4382 32.4845 64.3931 22.4395 64.3931 22.4395M80.5931 38.6395C74.4382 44.7944 64.3931 54.8395 64.3931 54.8395" stroke="black" stroke-width="2.88" stroke-linecap="round"/>
+                </svg>
+                <!-- Hover arrow -->
+                <svg class="collaborate-arrow-hover" width="120" height="78" viewBox="0 0 120 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.234375" y="0.638672" width="119.08" height="76.48" rx="38.24" fill="#EDEDED"/>
+                    <path d="M39.9531 38.6395C39.9531 38.6395 64.8464 38.6395 80.5931 38.6395M80.5931 38.6395C74.4382 32.4845 64.3931 22.4395 64.3931 22.4395M80.5931 38.6395C74.4382 44.7944 64.3931 54.8395 64.3931 54.8395" stroke="black" stroke-width="2.88" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </a>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="/" class="footer-name">Dennis George</a>
+                <div class="center-links">
+                    <a href="https://www.linkedin.com/in/dennis-george-mathew-616218218/" target="_blank" rel="noopener noreferrer">Linkedn</a>
+                    <a href="https://www.behance.net/d0f07fcb" target="_blank" rel="noopener noreferrer">Behance</a>
+                    <a href="mailto:dennisgeorgem@outlook.com">Email</a>
+                    <a href="tel:+971507075016">Phone</a>
+                    <a href="https://drive.google.com/file/d/1HETAbWaiEBVZNAHrY7JKpG24lHa8fHxD/view" target="_blank" rel="noopener noreferrer">Resume</a>
+                </div>
+                <span class="footer-year">2025</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Footer -->
+    <footer class="mobile-footer">
+        <div class="mobile-footer-container">
+            <div class="mobile-footer-links">
+                <a href="https://www.linkedin.com/in/dennis-george-mathew-616218218/" target="_blank" rel="noopener noreferrer">Linkedn</a>
+                <a href="https://www.behance.net/d0f07fcb" target="_blank" rel="noopener noreferrer">Behance</a>
+                <a href="mailto:dennisgeorgem@outlook.com">Email</a>
+                <a href="tel:+971507075016">Phone</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add this after the main-nav -->
+    <button class="hamburger-menu" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Add this before mobile-nav -->
+    <div class="menu-overlay"></div>
+
+    <nav class="mobile-nav">
+        <a href="#" class="nav-link">Home</a>
+        <div class="projects-section">
+            <div class="projects-toggle nav-link">Projects</div>
+            <div class="projects-dropdown">
+                <a href="/polygon.html" class="project-item">Polygon</a>
+                <a href="/projects/swoosh.html" class="project-item">Swoosh</a>
+                <a href="/projects/itsfreedubai.html" class="project-item">itsfreedubai</a>
+                <a href="/projects/architecture.html" class="project-item">Architecture</a>
+                <a href="/projects/music.html" class="project-item">Music</a>
+                <a href="/projects/motion-graphics.html" class="project-item">Motion Graphics</a>
+            </div>
+        </div>
+        <a href="/index.html" class="nav-link active">About</a>
+        <a href="/resume.html" class="nav-link">Resume</a>
+    </nav>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+        import { initMobileMenu } from './src/header.js';
+        window.addEventListener('load', initMobileMenu);
+    </script>
+    <script>
+        // Direct script to test functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    document.body.classList.toggle('menu-active');
+                    console.log('Clicked hamburger');
+                });
+            }
+        });
+    </script>
+  </body>
+</html>
