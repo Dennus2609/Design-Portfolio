@@ -9,5 +9,14 @@ export default defineConfig({
     assetsDir: 'assets',
     // Generate source maps for better debugging
     sourcemap: true,
+    // Copy all HTML files
+    rollupOptions: {
+      input: {
+        main: '/index.html',
+        about: '/about.html',
+        polygon: '/polygon.html',
+        projects: '/projects/**/*.html'
+      }
+    }
   }
 }) 
