@@ -1,15 +1,5 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import glob from 'glob'
-
-// Get all HTML files
-const htmlFiles = glob.sync('**/*.html', {
-  ignore: ['dist/**', 'node_modules/**', 'portfolio/**', 'For reference/**']
-}).reduce((acc, file) => {
-  const name = file.replace('.html', '')
-  acc[name] = resolve(__dirname, file)
-  return acc
-}, {})
 
 export default defineConfig({
   // Base public path when served in production
@@ -22,23 +12,16 @@ export default defineConfig({
     sourcemap: true,
     // Copy all HTML files
     rollupOptions: {
-      input: htmlFiles,
-      output: {
-        dir: 'dist',
-        assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.')[1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = 'img';
-          } else if (/mp4|webm|ogg/i.test(extType)) {
-            extType = 'video';
-          }
-          return `assets/${extType}/[name]-[hash][extname]`;
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        about: resolve(__dirname, 'about.html'),
+        polygon: resolve(__dirname, 'polygon.html'),
+        swoosh: resolve(__dirname, 'projects/swoosh.html'),
+        itsfreedubai: resolve(__dirname, 'projects/itsfreedubai.html'),
+        architecture: resolve(__dirname, 'projects/architecture.html'),
+        music: resolve(__dirname, 'projects/music.html'),
+        motionGraphics: resolve(__dirname, 'projects/motion-graphics.html')
       }
-    },
-    // Preserve all file structure
-    copyPublicDir: true
+    }
   }
 }) 
