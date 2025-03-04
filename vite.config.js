@@ -1,27 +1,24 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
+import { defineConfig } from 'vite';
+import { glob } from 'glob';
+import { resolve } from 'path';
+
+// Find all HTML files in the root and projects directory
+const htmlPages = {};
+const htmlFiles = [...glob.sync('*.html'), ...glob.sync('projects/*.html')];
+
+htmlFiles.forEach(file => {
+  const name = file.split('/').pop().replace('.html', '');
+  htmlPages[name] = resolve(__dirname, file);
+});
 
 export default defineConfig({
-  // Base public path when served in production
-  base: '/',
-  // Build configuration
   build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    // Generate source maps for better debugging
-    sourcemap: true,
-    // Copy all HTML files
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        about: resolve(__dirname, 'about.html'),
-        polygon: resolve(__dirname, 'polygon.html'),
-        swoosh: resolve(__dirname, 'projects/swoosh.html'),
-        itsfreedubai: resolve(__dirname, 'projects/itsfreedubai.html'),
-        architecture: resolve(__dirname, 'projects/architecture.html'),
-        music: resolve(__dirname, 'projects/music.html'),
-        motionGraphics: resolve(__dirname, 'projects/motion-graphics.html')
-      }
-    }
-  }
-}) 
+      input: htmlPages
+    },
+    // Keep output readable for debugging if needed
+    minify: false
+  },
+  // Ensure font files are handled correctly
+  assetsInclude: ['**/*.woff', '**/*.woff2', '**/*.eot', '**/*.ttf', '**/*.otf']
+}); 

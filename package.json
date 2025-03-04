@@ -5,12 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "vite build && node fixStyles.js",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "glob": "^10.3.10",
-    "vite": "^6.1.0",
-    "path": "^0.12.7"
+    "glob": "^11.0.1",
+    "vite": "^6.2.0"
   }
 }
