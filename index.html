@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/nav.css">
     <link rel="stylesheet" href="/src/home.css">
+    <link rel="stylesheet" href="/src/hero.css">
     <style>
         /* Add base header styles */
         header {
@@ -1191,7 +1192,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ==========================================
-            // HERO VIDEO IMPLEMENTATION - EXACTLY LIKE MOTION GRAPHICS
+            // HERO VIDEO IMPLEMENTATION - MATCH MOTION GRAPHICS
             // ==========================================
             const heroVideo = document.getElementById('heroVideo');
             const staticMedia = document.querySelector('.home-hero .static-media');
@@ -1204,6 +1205,7 @@
                 }
                 if (staticMedia) {
                     staticMedia.style.display = 'block';
+                    staticMedia.style.opacity = '1';
                 }
                 
                 if (playButton) {
