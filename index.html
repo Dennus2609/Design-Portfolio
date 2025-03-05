@@ -46,19 +46,25 @@
             position: relative;
         }
 
-        /* Video and static media styles */
-        #heroVideo, .static-media {
+        /* Video styles */
+        .hero-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Cover for desktop */
+            object-fit: cover;
+            display: none; /* Hidden by default */
         }
 
+        /* Static media styles */
         .static-media {
-            z-index: 5; /* Ensure static media is above video */
-            background-color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
         .static-media img {
@@ -91,7 +97,7 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transform: translateX(-50%) scale(0.9);
-            z-index: 10; /* Ensure play button is above static image */
+            z-index: 10;
         }
 
         .play-button.visible {
@@ -140,8 +146,9 @@
                 height: 100svh;
             }
             
-            #heroVideo, .static-media, .static-media img {
-                object-fit: contain; /* Contain for mobile */
+            .hero-video,
+            .static-media img {
+                object-fit: contain; /* Use contain for mobile */
             }
 
             .play-button {
@@ -656,32 +663,7 @@
     <!-- Hero Section -->
     <section class="home-hero">
         <div class="hero-content">
-            <!-- Video content -->
-            <video 
-                id="heroVideo"
-                class="hero-media" 
-                autoplay 
-                muted
-                playsinline
-                webkit-playsinline
-                preload="auto"
-                disablePictureInPicture
-                disableRemotePlayback
-                x-webkit-airplay="allow"
-                data-wf-ignore="true">
-                <!-- Desktop Video -->
-                <source 
-                    src="/desktop_view_hero_page_render.mp4" 
-                    type="video/mp4"
-                    media="(min-width: 769px)">
-                <!-- Mobile Video -->
-                <source 
-                    src="/mobile_view_hero_page_render.mp4" 
-                    type="video/mp4"
-                    media="(max-width: 768px)">
-            </video>
-
-            <!-- Static image fallback -->
+            <!-- Static image fallback (displayed first) -->
             <picture class="static-media">
                 <source 
                     media="(max-width: 768px)" 
@@ -694,6 +676,26 @@
                     alt="Portfolio hero image"
                     loading="eager">
             </picture>
+
+            <!-- Video content -->
+            <video 
+                id="heroVideo"
+                class="hero-video" 
+                autoplay 
+                loop 
+                muted="muted"
+                playsinline
+                webkit-playsinline
+                x-webkit-airplay="allow">
+                <source 
+                    src="/desktop_view_hero_page_render.mp4" 
+                    type="video/mp4"
+                    media="(min-width: 769px)">
+                <source 
+                    src="/mobile_view_hero_page_render.mp4" 
+                    type="video/mp4"
+                    media="(max-width: 768px)">
+            </video>
 
             <!-- Play button -->
             <button class="play-button" aria-label="Play Animation">
@@ -1191,26 +1193,44 @@
     <script type="module" src="/src/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Show header immediately (independent of video)
+            document.body.classList.add('fade-in-ready');
+            document.querySelector('header').classList.add('visible');
+            
             // ---- HERO SECTION IMPLEMENTATION ----
             const heroVideo = document.getElementById('heroVideo');
-            const heroStaticMedia = document.querySelector('.home-hero .static-media');
-            const heroPlayButton = document.querySelector('.home-hero .play-button');
-            const heroHeader = document.querySelector('header');
+            const staticMedia = document.querySelector('.home-hero .static-media');
+            const playButton = document.querySelector('.home-hero .play-button');
             
-            // Function to show play button over static image
-            function showPlayButton() {
-                setTimeout(() => {
-                    heroPlayButton.classList.add('visible');
+            // Function to switch to static image and show play button
+            function useStaticImage() {
+                if (heroVideo) {
+                    heroVideo.style.display = 'none';
+                }
+                if (staticMedia) {
+                    staticMedia.style.display = 'block';
+                }
+                
+                if (playButton) {
                     setTimeout(() => {
-                        heroPlayButton.classList.add('expanded');
-                    }, 300);
-                }, 500);
+                        playButton.classList.add('visible');
+                        setTimeout(() => {
+                            playButton.classList.add('expanded');
+                        }, 300);
+                    }, 500);
+                }
             }
 
             // Function to start video playback
-            function startHeroVideo() {
-                heroPlayButton.classList.remove('visible', 'expanded');
-                heroStaticMedia.style.display = 'none';
+            function startVideo() {
+                if (!heroVideo) return;
+                
+                if (playButton) {
+                    playButton.classList.remove('visible', 'expanded');
+                }
+                if (staticMedia) {
+                    staticMedia.style.display = 'none';
+                }
                 
                 heroVideo.style.display = 'block';
                 heroVideo.currentTime = 0;
@@ -1219,59 +1239,38 @@
                 
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.error('Hero video playback failed:', error);
-                        heroVideo.style.display = 'none';
-                        heroStaticMedia.style.display = 'block';
-                        showPlayButton();
+                        console.error('Video playback failed:', error);
+                        useStaticImage();
                     });
                 }
             }
 
             // Add click handler to play button
-            heroPlayButton.addEventListener('click', startHeroVideo);
+            if (playButton) {
+                playButton.addEventListener('click', startVideo);
+            }
 
-            // CRITICAL: Show static image by default
-            heroVideo.style.display = 'none';
-            heroStaticMedia.style.display = 'block';
-            showPlayButton();
-            
-            // Make header visible immediately for better user experience
-            setTimeout(() => {
-                document.body.classList.add('fade-in-ready');
-                heroHeader.classList.add('visible');
-            }, 1000);
-            
-            // Initial attempt to autoplay video - but only if not on mobile
-            if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-                // Desktop browser - try autoplay
-                heroVideo.style.display = 'block';
-                const initialHeroPlayAttempt = heroVideo.play();
+            // Initial attempt to autoplay video
+            if (heroVideo) {
+                // Try to play the video
+                const initialPlayAttempt = heroVideo.play();
                 
-                if (initialHeroPlayAttempt !== undefined) {
-                    initialHeroPlayAttempt.then(() => {
-                        // Success! Hide static image
-                        heroStaticMedia.style.display = 'none';
-                        heroPlayButton.classList.remove('visible', 'expanded');
-                        
-                        // Add timeupdate handler for header visibility
-                        heroVideo.addEventListener('timeupdate', function() {
-                            if (heroVideo.currentTime >= 1.5 && !heroHeader.classList.contains('visible')) {
-                                document.body.classList.add('fade-in-ready');
-                                heroHeader.classList.add('visible');
-                            }
-                        });
+                if (initialPlayAttempt !== undefined) {
+                    initialPlayAttempt.then(() => {
+                        heroVideo.style.display = 'block';
+                        if (staticMedia) {
+                            staticMedia.style.display = 'none';
+                        }
                     }).catch(() => {
-                        console.log("Hero autoplay failed, keeping static image");
-                        heroVideo.style.display = 'none';
-                        heroStaticMedia.style.display = 'block';
-                        showPlayButton();
+                        // Autoplay failed, show static image and play button
+                        useStaticImage();
                     });
                 } else {
-                    console.log("Browser doesn't support play() promise, showing static image as fallback");
-                    heroVideo.style.display = 'none';
-                    heroStaticMedia.style.display = 'block';
-                    showPlayButton();
+                    // Browser doesn't support promises for play()
+                    useStaticImage();
                 }
+            } else {
+                useStaticImage();
             }
 
             // ---- SLIDESHOW IMPLEMENTATION (remains unchanged) ----
