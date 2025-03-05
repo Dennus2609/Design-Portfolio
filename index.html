@@ -37,7 +37,6 @@
             height: 100svh; /* For mobile browsers */
             position: relative;
             overflow: hidden;
-            background-color: #fff;
         }
 
         .hero-content {
@@ -53,8 +52,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            background-color: #fff;
+            object-fit: cover;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -72,7 +70,7 @@
         .static-media img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             background-color: #fff;
             will-change: transform;
             backface-visibility: hidden;
@@ -154,7 +152,6 @@
             
             #heroVideo, .static-media, .static-media img {
                 object-fit: contain;
-                background-color: #fff;
                 display: block; /* Ensure elements are displayed */
             }
 
@@ -411,11 +408,22 @@
             .polygon-section #polygonVideo,
             .polygon-section .static-media,
             .polygon-section .static-media img {
-                position: absolute;
+                position: absolute; /* Keep absolutely positioned */
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
                 background-color: white;
+                opacity: 1; /* Ensure opacity is explicitly set */
+                display: block; /* Ensure it's displayed */
+            }
+
+            /* Special override for slide 4 */
+            .polygon-section .slide[data-slide="4"] .static-media,
+            .polygon-section .slide[data-slide="4"] .static-media img {
+                object-fit: cover; /* Use cover for this slide */
+                opacity: 1 !important; /* Force opacity */
+                display: block !important; /* Force display */
+                visibility: visible !important; /* Ensure visibility */
             }
 
             .polygon-section .play-button {
@@ -822,7 +830,7 @@
                         <img 
                             src="/public/itsfd_static.jpg" 
                             alt="Its Free Dubai showcase"
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 1;">
                     </picture>
                     <div class="slide-label">Itsfreedubai</div>
                 </div>
@@ -1298,6 +1306,12 @@
                     clearTimeout(window.slideTimer);
                 }
 
+                // Set a default auto-advance timer (will be cleared if video is playing)
+                window.slideTimer = setTimeout(() => {
+                    const nextSlide = currentSlide % 6 + 1;
+                    switchSlide(nextSlide);
+                }, 5000);
+
                 // Update slides
                 slides.forEach(slide => {
                     slide.classList.remove('active');
@@ -1307,27 +1321,63 @@
                         const staticImage = slide.querySelector('.static-media');
                         
                         // Special handling for static-only slides (slide 4)
-                        if (slideNumber === 4) {
+                        if (parseInt(slideNumber) === 4) {
                             if (staticImage) {
+                                // Force display for slide 4 static image
                                 staticImage.style.display = 'block';
                                 staticImage.style.opacity = '1';
+                                staticImage.style.visibility = 'visible';
+                                
+                                // Get the img element inside
+                                const img = staticImage.querySelector('img');
+                                if (img) {
+                                    img.style.display = 'block';
+                                    img.style.opacity = '1';
+                                    img.style.visibility = 'visible';
+                                }
+                                
+                                // Force multiple repaints with increasing timeouts
+                                [10, 50, 200].forEach(timeout => {
+                                    setTimeout(() => {
+                                        staticImage.style.display = 'block';
+                                        staticImage.style.opacity = '1';
+                                        staticImage.style.visibility = 'visible';
+                                        
+                                        if (img) {
+                                            img.style.display = 'block';
+                                            img.style.opacity = '1';
+                                            img.style.visibility = 'visible';
+                                        }
+                                        
+                                        // Force a repaint
+                                        slide.style.transform = 'translateZ(0)';
+                                        setTimeout(() => {
+                                            slide.style.transform = '';
+                                        }, 0);
+                                    }, timeout);
+                                });
                             }
-                            // Set timer for next slide
-                            window.slideTimer = setTimeout(() => {
-                                const nextSlide = 5;
-                                switchSlide(nextSlide);
-                            }, 4000);
-                            return;
-                        }
-
-                        if (video) {
+                        } 
+                        // Handle video slides
+                        else if (video) {
+                            // Hide static image for video slides
                             if (staticImage) {
                                 staticImage.style.display = 'none';
                             }
+                            
+                            // Set up and play the video
                             video.style.display = 'block';
+                            video.currentTime = 0;
+                            
                             const playPromise = video.play();
                             if (playPromise !== undefined) {
-                                playPromise.catch(() => {
+                                playPromise.then(() => {
+                                    // Video is playing, clear the timer and let the video end event handle the transition
+                                    if (window.slideTimer) {
+                                        clearTimeout(window.slideTimer);
+                                    }
+                                }).catch(() => {
+                                    // If autoplay fails, show static image and play button
                                     if (staticImage) {
                                         staticImage.style.display = 'block';
                                     }
@@ -1363,7 +1413,7 @@
                     }
                 });
 
-                currentSlide = slideNumber;
+                currentSlide = parseInt(slideNumber);
             }
 
             // Add click handlers to indicators
@@ -1378,10 +1428,28 @@
             const videos = document.querySelectorAll('.polygon-section video');
             videos.forEach(video => {
                 video.addEventListener('ended', () => {
-                    const nextSlide = currentSlide % 6 + 1; // Update to cycle through 6 slides
+                    const nextSlide = currentSlide % 6 + 1;
                     switchSlide(nextSlide);
                 });
             });
+
+            // Add click handlers for arrow navigation if they exist
+            const prevArrow = document.querySelector('.polygon-section .slide-arrow.prev');
+            const nextArrow = document.querySelector('.polygon-section .slide-arrow.next');
+            
+            if (prevArrow) {
+                prevArrow.addEventListener('click', () => {
+                    const prevSlide = currentSlide === 1 ? 6 : currentSlide - 1;
+                    switchSlide(prevSlide);
+                });
+            }
+            
+            if (nextArrow) {
+                nextArrow.addEventListener('click', () => {
+                    const nextSlide = currentSlide % 6 + 1;
+                    switchSlide(nextSlide);
+                });
+            }
 
             // Initialize first slide
             switchSlide(1);
