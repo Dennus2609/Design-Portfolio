@@ -37,6 +37,7 @@
             height: 100svh; /* For mobile browsers */
             position: relative;
             overflow: hidden;
+            background-color: #fff; /* Ensure background is white */
         }
 
         .hero-content {
@@ -153,6 +154,12 @@
             #heroVideo, .static-media, .static-media img {
                 object-fit: contain;
                 display: block; /* Ensure elements are displayed */
+            }
+
+            /* Make sure static image is visible on mobile when active */
+            .static-media.active {
+                opacity: 1;
+                display: block !important;
             }
 
             .play-button {
@@ -1212,6 +1219,7 @@
             function useHeroStaticImage() {
                 heroVideo.style.display = 'none';
                 heroStaticMedia.style.display = 'block';
+                heroStaticMedia.classList.add('active');
                 
                 setTimeout(() => {
                     heroPlayButton.classList.add('visible');
@@ -1224,10 +1232,12 @@
             // Function to start hero video playback
             function startHeroVideo() {
                 heroPlayButton.classList.remove('visible', 'expanded');
+                heroStaticMedia.classList.remove('active');
                 heroStaticMedia.style.display = 'none';
                 
                 heroVideo.style.display = 'block';
                 heroVideo.currentTime = 0;
+                heroVideo.classList.add('can-play');
                 
                 const playPromise = heroVideo.play();
                 
@@ -1265,6 +1275,9 @@
             
             if (initialHeroPlayAttempt !== undefined) {
                 initialHeroPlayAttempt.then(() => {
+                    // Successfully playing video
+                    heroVideo.classList.add('can-play');
+                    
                     heroVideo.addEventListener('loadedmetadata', function() {
                         const duration = heroVideo.duration;
                         const fadeInTime = duration * 0.55;
@@ -1280,9 +1293,13 @@
                         });
                     });
                 }).catch(() => {
+                    // Autoplay failed, switch to static image
+                    console.log("Autoplay failed, showing static image");
                     useHeroStaticImage();
                 });
             } else {
+                // Older browsers that don't return a promise
+                console.log("Browser doesn't support play() promise, showing static image as fallback");
                 useHeroStaticImage();
             }
 
