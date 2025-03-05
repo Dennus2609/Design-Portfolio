@@ -57,7 +57,6 @@
         }
 
         .static-media {
-            z-index: 5; /* Ensure static media is above video */
             background-color: #fff;
         }
 
@@ -656,7 +655,21 @@
     <!-- Hero Section -->
     <section class="home-hero">
         <div class="hero-content">
-            <!-- Video content -->
+            <!-- Static image fallback - MOVED BEFORE VIDEO -->
+            <picture class="static-media">
+                <source 
+                    media="(max-width: 768px)" 
+                    srcset="/mobile_view_render_static.jpg">
+                <source 
+                    media="(min-width: 769px)" 
+                    srcset="/desktop_view_render_static.jpg">
+                <img 
+                    src="/desktop_view_render_static.jpg" 
+                    alt="Portfolio hero image"
+                    loading="eager">
+            </picture>
+            
+            <!-- Video content - AFTER STATIC IMAGE -->
             <video 
                 id="heroVideo"
                 class="hero-media" 
@@ -680,20 +693,6 @@
                     type="video/mp4"
                     media="(max-width: 768px)">
             </video>
-
-            <!-- Static image fallback -->
-            <picture class="static-media">
-                <source 
-                    media="(max-width: 768px)" 
-                    srcset="/mobile_view_render_static.jpg">
-                <source 
-                    media="(min-width: 769px)" 
-                    srcset="/desktop_view_render_static.jpg">
-                <img 
-                    src="/desktop_view_render_static.jpg" 
-                    alt="Portfolio hero image"
-                    loading="eager">
-            </picture>
 
             <!-- Play button -->
             <button class="play-button" aria-label="Play Animation">
@@ -1192,29 +1191,41 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ==========================================
-            // HERO VIDEO IMPLEMENTATION - EXACTLY LIKE PROJECT PAGES
+            // HERO VIDEO IMPLEMENTATION - EXACTLY LIKE MOTION GRAPHICS
             // ==========================================
             const heroVideo = document.getElementById('heroVideo');
-            const heroStaticMedia = document.querySelector('.home-hero .static-media');
-            const heroPlayButton = document.querySelector('.home-hero .play-button');
+            const staticMedia = document.querySelector('.home-hero .static-media');
+            const playButton = document.querySelector('.home-hero .play-button');
             
             // Function to switch to static image and show play button
-            function useHeroStaticImage() {
-                heroVideo.style.display = 'none';
-                heroStaticMedia.style.display = 'block';
+            function useStaticImage() {
+                if (heroVideo) {
+                    heroVideo.style.display = 'none';
+                }
+                if (staticMedia) {
+                    staticMedia.style.display = 'block';
+                }
                 
-                setTimeout(() => {
-                    heroPlayButton.classList.add('visible');
+                if (playButton) {
                     setTimeout(() => {
-                        heroPlayButton.classList.add('expanded');
-                    }, 300);
-                }, 500);
+                        playButton.classList.add('visible');
+                        setTimeout(() => {
+                            playButton.classList.add('expanded');
+                        }, 300);
+                    }, 500);
+                }
             }
 
             // Function to start video playback
-            function startHeroVideo() {
-                heroPlayButton.classList.remove('visible', 'expanded');
-                heroStaticMedia.style.display = 'none';
+            function startVideo() {
+                if (!heroVideo) return;
+                
+                if (playButton) {
+                    playButton.classList.remove('visible', 'expanded');
+                }
+                if (staticMedia) {
+                    staticMedia.style.display = 'none';
+                }
                 
                 heroVideo.style.display = 'block';
                 heroVideo.currentTime = 0;
@@ -1223,31 +1234,37 @@
                 
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.error('Hero video playback failed:', error);
-                        useHeroStaticImage();
+                        console.error('Video playback failed:', error);
+                        useStaticImage();
                     });
                 }
             }
 
             // Add click handler to play button
-            heroPlayButton.addEventListener('click', startHeroVideo);
-
-            // Initial attempt to autoplay video (MATCHING PROJECT PAGES)
-            heroVideo.style.display = 'block';
-            heroStaticMedia.style.display = 'none';
-            
-            const initialPlayAttempt = heroVideo.play();
-            
-            if (initialPlayAttempt !== undefined) {
-                initialPlayAttempt.catch(() => {
-                    console.log("Hero autoplay failed, showing static image");
-                    useHeroStaticImage();
-                });
-            } else {
-                console.log("Browser doesn't support play() promise, showing static image as fallback");
-                useHeroStaticImage();
+            if (playButton) {
+                playButton.addEventListener('click', startVideo);
             }
 
+            // Initial attempt to autoplay video
+            if (heroVideo) {
+                heroVideo.style.display = 'block';
+                if (staticMedia) {
+                    staticMedia.style.display = 'none';
+                }
+                
+                const initialPlayAttempt = heroVideo.play();
+                
+                if (initialPlayAttempt !== undefined) {
+                    initialPlayAttempt.catch(() => {
+                        useStaticImage();
+                    });
+                } else {
+                    useStaticImage();
+                }
+            } else {
+                useStaticImage();
+            }
+            
             // Make header visible (completely separated from video logic)
             const heroHeader = document.querySelector('header');
             setTimeout(() => {
