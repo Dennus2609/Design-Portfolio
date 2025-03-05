@@ -1232,10 +1232,21 @@
             // Add click handler to play button
             heroPlayButton.addEventListener('click', startHeroVideo);
 
-            // Initial state - show static image by default
-            heroVideo.style.display = 'none';
-            heroStaticMedia.style.display = 'block';
-            useHeroStaticImage();
+            // Initial attempt to autoplay video (MATCHING PROJECT PAGES)
+            heroVideo.style.display = 'block';
+            heroStaticMedia.style.display = 'none';
+            
+            const initialPlayAttempt = heroVideo.play();
+            
+            if (initialPlayAttempt !== undefined) {
+                initialPlayAttempt.catch(() => {
+                    console.log("Hero autoplay failed, showing static image");
+                    useHeroStaticImage();
+                });
+            } else {
+                console.log("Browser doesn't support play() promise, showing static image as fallback");
+                useHeroStaticImage();
+            }
 
             // Make header visible (completely separated from video logic)
             const heroHeader = document.querySelector('header');
