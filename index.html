@@ -141,7 +141,8 @@
             }
             
             #heroVideo, .static-media, .static-media img {
-                object-fit: contain; /* Contain for mobile */
+                object-fit: contain;
+                object-position: center center; /* Adjust as needed: top, center, bottom */
             }
 
             .play-button {
@@ -676,7 +677,7 @@
                     media="(min-width: 769px)">
                 <!-- Mobile Video -->
                 <source 
-                    src="/mobile_view_hero_page_render.mp4" 
+                    src="/matched_mobile_view_square_frame.mp4" 
                     type="video/mp4"
                     media="(max-width: 768px)">
             </video>
@@ -1230,49 +1231,54 @@
             // Add click handler to play button
             heroPlayButton.addEventListener('click', startHeroVideo);
 
-            // CRITICAL: Show static image by default
-            heroVideo.style.display = 'none';
-            heroStaticMedia.style.display = 'block';
-            showPlayButton();
-            
-            // Make header visible immediately for better user experience
+            // Show header immediately for better user experience
             setTimeout(() => {
                 document.body.classList.add('fade-in-ready');
                 heroHeader.classList.add('visible');
             }, 1000);
             
-            // Initial attempt to autoplay video - but only if not on mobile
-            if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-                // Desktop browser - try autoplay
-                heroVideo.style.display = 'block';
-                const initialHeroPlayAttempt = heroVideo.play();
-                
-                if (initialHeroPlayAttempt !== undefined) {
-                    initialHeroPlayAttempt.then(() => {
-                        // Success! Hide static image
-                        heroStaticMedia.style.display = 'none';
-                        heroPlayButton.classList.remove('visible', 'expanded');
-                        
-                        // Add timeupdate handler for header visibility
-                        heroVideo.addEventListener('timeupdate', function() {
-                            if (heroVideo.currentTime >= 1.5 && !heroHeader.classList.contains('visible')) {
-                                document.body.classList.add('fade-in-ready');
-                                heroHeader.classList.add('visible');
-                            }
-                        });
-                    }).catch(() => {
-                        console.log("Hero autoplay failed, keeping static image");
-                        heroVideo.style.display = 'none';
-                        heroStaticMedia.style.display = 'block';
-                        showPlayButton();
+            // Attempt to autoplay on ALL devices (both desktop and mobile)
+            heroVideo.style.display = 'block';
+            const initialHeroPlayAttempt = heroVideo.play();
+            
+            if (initialHeroPlayAttempt !== undefined) {
+                initialHeroPlayAttempt.then(() => {
+                    // Success! Hide static image
+                    heroStaticMedia.style.display = 'none';
+                    heroPlayButton.classList.remove('visible', 'expanded');
+                    
+                    // Add timeupdate handler for header visibility
+                    heroVideo.addEventListener('timeupdate', function() {
+                        if (heroVideo.currentTime >= 1.5 && !heroHeader.classList.contains('visible')) {
+                            document.body.classList.add('fade-in-ready');
+                            heroHeader.classList.add('visible');
+                        }
                     });
-                } else {
-                    console.log("Browser doesn't support play() promise, showing static image as fallback");
+                }).catch(() => {
+                    console.log("Hero autoplay failed, keeping static image");
                     heroVideo.style.display = 'none';
                     heroStaticMedia.style.display = 'block';
                     showPlayButton();
-                }
+                });
+            } else {
+                console.log("Browser doesn't support play() promise, showing static image as fallback");
+                heroVideo.style.display = 'none';
+                heroStaticMedia.style.display = 'block';
+                showPlayButton();
             }
+
+            // Add these near the top of your DOMContentLoaded function
+            heroVideo.addEventListener('error', function(e) {
+                console.error('Video error:', e);
+                console.error('Error code:', heroVideo.error ? heroVideo.error.code : 'unknown');
+                console.error('Error message:', heroVideo.error ? heroVideo.error.message : 'unknown');
+            });
+            
+            heroVideo.addEventListener('loadedmetadata', function() {
+                console.log('Video metadata loaded successfully');
+                console.log('Duration:', heroVideo.duration);
+                console.log('Dimensions:', heroVideo.videoWidth, 'x', heroVideo.videoHeight);
+            });
 
             // ---- SLIDESHOW IMPLEMENTATION (remains unchanged) ----
             const slides = document.querySelectorAll('.polygon-section .slide');
