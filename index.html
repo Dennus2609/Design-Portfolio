@@ -57,7 +57,6 @@
         }
 
         .static-media {
-            z-index: 5; /* Ensure static media is above video */
             background-color: #fff;
         }
 
@@ -657,7 +656,21 @@
     <!-- Hero Section -->
     <section class="home-hero">
         <div class="hero-content">
-            <!-- Video content -->
+            <!-- Static image fallback - MOVED BEFORE VIDEO -->
+            <picture class="static-media">
+                <source 
+                    media="(max-width: 768px)" 
+                    srcset="/mobile_view_render_static.jpg">
+                <source 
+                    media="(min-width: 769px)" 
+                    srcset="/desktop_view_render_static.jpg">
+                <img 
+                    src="/desktop_view_render_static.jpg" 
+                    alt="Portfolio hero image"
+                    loading="eager">
+            </picture>
+            
+            <!-- Video content - AFTER STATIC IMAGE -->
             <video 
                 id="heroVideo"
                 class="hero-media" 
@@ -681,20 +694,6 @@
                     type="video/mp4"
                     media="(max-width: 768px)">
             </video>
-
-            <!-- Static image fallback -->
-            <picture class="static-media">
-                <source 
-                    media="(max-width: 768px)" 
-                    srcset="/mobile_view_render_static.jpg">
-                <source 
-                    media="(min-width: 769px)" 
-                    srcset="/desktop_view_render_static.jpg">
-                <img 
-                    src="/desktop_view_render_static.jpg" 
-                    alt="Portfolio hero image"
-                    loading="eager">
-            </picture>
 
             <!-- Play button -->
             <button class="play-button" aria-label="Play Animation">
@@ -1192,105 +1191,115 @@
     <script type="module" src="/src/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ---- HERO SECTION IMPLEMENTATION ----
+            // ==========================================
+            // HERO VIDEO IMPLEMENTATION - MATCH MOTION GRAPHICS
+            // ==========================================
             const heroVideo = document.getElementById('heroVideo');
-            const heroStaticMedia = document.querySelector('.home-hero .static-media');
-            const heroPlayButton = document.querySelector('.home-hero .play-button');
-            const heroHeader = document.querySelector('header');
+            const staticMedia = document.querySelector('.home-hero .static-media');
+            const playButton = document.querySelector('.home-hero .play-button');
             
-            // Function to show play button over static image
-            function showPlayButton() {
-                setTimeout(() => {
-                    heroPlayButton.classList.add('visible');
-                    setTimeout(() => {
-                        heroPlayButton.classList.add('expanded');
-                    }, 300);
-                }, 500);
-            }
-
-            // Function to start video playback
-            function startHeroVideo() {
-                heroPlayButton.classList.remove('visible', 'expanded');
-                heroStaticMedia.style.display = 'none';
-                
-                heroVideo.style.display = 'block';
-                heroVideo.currentTime = 0;
-                
-                const playPromise = heroVideo.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.error('Hero video playback failed:', error);
+            // Check if device is mobile
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            
+            // For mobile devices, always use static image
+            if (isMobile) {
+                if (heroVideo) {
+                    heroVideo.style.display = 'none';
+                }
+                if (staticMedia) {
+                    staticMedia.style.display = 'block';
+                }
+                // Skip the rest of video initialization for mobile
+            } else {
+                // Function to switch to static image and show play button - only for desktop
+                function useStaticImage() {
+                    if (heroVideo) {
                         heroVideo.style.display = 'none';
-                        heroStaticMedia.style.display = 'block';
-                        showPlayButton();
-                    });
+                    }
+                    if (staticMedia) {
+                        staticMedia.style.display = 'block';
+                    }
+                    
+                    if (playButton) {
+                        setTimeout(() => {
+                            playButton.classList.add('visible');
+                            setTimeout(() => {
+                                playButton.classList.add('expanded');
+                            }, 300);
+                        }, 500);
+                    }
+                }
+
+                // Function to start video playback - only for desktop
+                function startVideo() {
+                    if (!heroVideo) return;
+                    
+                    if (playButton) {
+                        playButton.classList.remove('visible', 'expanded');
+                    }
+                    if (staticMedia) {
+                        staticMedia.style.display = 'none';
+                    }
+                    
+                    heroVideo.style.display = 'block';
+                    heroVideo.currentTime = 0;
+                    
+                    const playPromise = heroVideo.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.error('Video playback failed:', error);
+                            useStaticImage();
+                        });
+                    }
+                }
+
+                // Add click handler to play button - only for desktop
+                if (playButton) {
+                    playButton.addEventListener('click', startVideo);
+                }
+
+                // Initial attempt to autoplay video - only for desktop
+                if (heroVideo) {
+                    heroVideo.style.display = 'block';
+                    if (staticMedia) {
+                        staticMedia.style.display = 'none';
+                    }
+                    
+                    const initialPlayAttempt = heroVideo.play();
+                    
+                    if (initialPlayAttempt !== undefined) {
+                        initialPlayAttempt.catch(() => {
+                            useStaticImage();
+                        });
+                    } else {
+                        useStaticImage();
+                    }
+                } else {
+                    useStaticImage();
                 }
             }
-
-            // Add click handler to play button
-            heroPlayButton.addEventListener('click', startHeroVideo);
-
-            // Show header immediately for better user experience
+            
+            // Make header visible (completely separated from video logic)
+            const heroHeader = document.querySelector('header');
             setTimeout(() => {
                 document.body.classList.add('fade-in-ready');
                 heroHeader.classList.add('visible');
             }, 1000);
-            
-            // Attempt to autoplay on ALL devices (both desktop and mobile)
-            heroVideo.style.display = 'block';
-            const initialHeroPlayAttempt = heroVideo.play();
-            
-            if (initialHeroPlayAttempt !== undefined) {
-                initialHeroPlayAttempt.then(() => {
-                    // Success! Hide static image
-                    heroStaticMedia.style.display = 'none';
-                    heroPlayButton.classList.remove('visible', 'expanded');
-                    
-                    // Add timeupdate handler for header visibility
-                    heroVideo.addEventListener('timeupdate', function() {
-                        if (heroVideo.currentTime >= 1.5 && !heroHeader.classList.contains('visible')) {
-                            document.body.classList.add('fade-in-ready');
-                            heroHeader.classList.add('visible');
-                        }
-                    });
-                }).catch(() => {
-                    console.log("Hero autoplay failed, keeping static image");
-                    heroVideo.style.display = 'none';
-                    heroStaticMedia.style.display = 'block';
-                    showPlayButton();
-                });
-            } else {
-                console.log("Browser doesn't support play() promise, showing static image as fallback");
-                heroVideo.style.display = 'none';
-                heroStaticMedia.style.display = 'block';
-                showPlayButton();
-            }
 
-            // Add these near the top of your DOMContentLoaded function
-            heroVideo.addEventListener('error', function(e) {
-                console.error('Video error:', e);
-                console.error('Error code:', heroVideo.error ? heroVideo.error.code : 'unknown');
-                console.error('Error message:', heroVideo.error ? heroVideo.error.message : 'unknown');
-            });
-            
-            heroVideo.addEventListener('loadedmetadata', function() {
-                console.log('Video metadata loaded successfully');
-                console.log('Duration:', heroVideo.duration);
-                console.log('Dimensions:', heroVideo.videoWidth, 'x', heroVideo.videoHeight);
-            });
-
-            // ---- SLIDESHOW IMPLEMENTATION (remains unchanged) ----
-            const slides = document.querySelectorAll('.polygon-section .slide');
-            const indicators = document.querySelectorAll('.polygon-section .indicator');
-            const slideTexts = document.querySelectorAll('.polygon-section .slide-text');
+            // ==========================================
+            // SLIDESHOW IMPLEMENTATION - COMPLETELY SEPARATE
+            // ==========================================
+            const slideshowSlides = document.querySelectorAll('.polygon-section .slide');
+            const slideshowIndicators = document.querySelectorAll('.polygon-section .indicator');
+            const slideshowTexts = document.querySelectorAll('.polygon-section .slide-text');
             let currentSlide = 1;
 
-            // Function to switch slides
+            // Function to switch slides - completely independent from hero
             function switchSlide(slideNumber) {
-                // Pause all videos first
-                const allVideos = document.querySelectorAll('.polygon-section video');
-                allVideos.forEach(video => {
+                // Pause all slideshow videos first
+                const allSlideshowVideos = document.querySelectorAll('.polygon-section video');
+                allSlideshowVideos.forEach(video => {
                     video.pause();
                     video.currentTime = 0;
                 });
@@ -1307,7 +1316,7 @@
                 }, 5000);
 
                 // Update slides
-                slides.forEach(slide => {
+                slideshowSlides.forEach(slide => {
                     slide.classList.remove('active');
                     if (slide.dataset.slide === slideNumber.toString()) {
                         slide.classList.add('active');
@@ -1392,7 +1401,7 @@
                 });
 
                 // Update indicators
-                indicators.forEach(indicator => {
+                slideshowIndicators.forEach(indicator => {
                     indicator.classList.remove('active');
                     if (indicator.dataset.slide === slideNumber.toString()) {
                         indicator.classList.add('active');
@@ -1400,7 +1409,7 @@
                 });
 
                 // Update text
-                slideTexts.forEach(text => {
+                slideshowTexts.forEach(text => {
                     text.style.display = 'none';
                     if (text.dataset.slide === slideNumber.toString()) {
                         text.style.display = 'block';
@@ -1411,16 +1420,16 @@
             }
 
             // Add click handlers to indicators
-            indicators.forEach(indicator => {
+            slideshowIndicators.forEach(indicator => {
                 indicator.addEventListener('click', () => {
                     const slideNumber = parseInt(indicator.dataset.slide);
                     switchSlide(slideNumber);
                 });
             });
 
-            // Add video end handlers
-            const videos = document.querySelectorAll('.polygon-section video');
-            videos.forEach(video => {
+            // Add video end handlers for slideshow videos only
+            const slideshowVideos = document.querySelectorAll('.polygon-section video');
+            slideshowVideos.forEach(video => {
                 video.addEventListener('ended', () => {
                     const nextSlide = currentSlide % 6 + 1;
                     switchSlide(nextSlide);
@@ -1448,7 +1457,44 @@
             // Initialize first slide
             switchSlide(1);
 
-            // Side Navigation Functionality
+            // Add click handlers for slideshow play buttons only
+            document.querySelectorAll('.slideshow-play-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const slide = this.closest('.slide');
+                    const video = slide.querySelector('video');
+                    const staticImage = slide.querySelector('.static-media');
+                    
+                    if (video) {
+                        staticImage.style.display = 'none';
+                        video.style.display = 'block';
+                        
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Only hide the play button after successful playback
+                                setTimeout(() => {
+                                    this.classList.remove('expanded');
+                                    setTimeout(() => {
+                                        slide.classList.remove('show-play-button');
+                                        this.classList.remove('visible');
+                                    }, 300);
+                                }, 500);
+                            }).catch(() => {
+                                // If playback fails, show static image and play button
+                                staticImage.style.display = 'block';
+                                slide.classList.add('show-play-button');
+                                this.classList.add('visible');
+                                this.classList.add('expanded');
+                            });
+                        }
+                    }
+                });
+            });
+
+            // ==========================================
+            // NAVIGATION FUNCTIONALITY - COMPLETELY SEPARATE
+            // ==========================================
             const sections = document.querySelectorAll('section[id]');
             const allNavItems = document.querySelectorAll('.side-nav .nav-item');
             
@@ -1525,41 +1571,6 @@
 
             // Initial check for active section
             updateActiveNavItem();
-
-            // Add click handlers for play buttons
-            document.querySelectorAll('.slideshow-play-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const slide = this.closest('.slide');
-                    const video = slide.querySelector('video');
-                    const staticImage = slide.querySelector('.static-media');
-                    
-                    if (video) {
-                        staticImage.style.display = 'none';
-                        video.style.display = 'block';
-                        
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                // Only hide the play button after successful playback
-                                setTimeout(() => {
-                                    this.classList.remove('expanded');
-                                    setTimeout(() => {
-                                        slide.classList.remove('show-play-button');
-                                        this.classList.remove('visible');
-                                    }, 300);
-                                }, 500);
-                            }).catch(() => {
-                                // If playback fails, show static image and play button
-                                staticImage.style.display = 'block';
-                                slide.classList.add('show-play-button');
-                                this.classList.add('visible');
-                                this.classList.add('expanded');
-                            });
-                        }
-                    }
-                });
-            });
         });
     </script>
   </body>
