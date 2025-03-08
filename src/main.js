@@ -25,12 +25,12 @@ const tabContents = {
     'For Anybody': `I am a
 Multidisciplinary
 designer based out
-of Dubai. I Currently
+of Dubai. I currently
 lead design at Dubai
 Police`,
-    'Recruiters': 'I am a creative with over Four years of experience across brand and product, at companies large and small. ',
+    'Recruiters': 'I am a creative with over four years of experience across brand and product, at companies large and small. I am always open to exploring new and exciting opportunities.',
     'Project Manager': 'I thrive in structured collaborations,from defining scope to final delivery, I’ll ensure a seamless, impactful outcome.',
-    'Website & App dev': 'I design and develop Websites and apps , from wireframes to production—ready code ensuring seamless digital experiences across platforms.',
+    'Website & App dev': 'I design and develop Websites and Apps , from wireframes to production—ready code, ensuring seamless digital experiences across platforms.',
     'Branding': 'I craft cohesive brand identities that stand out. From logos to full brand systems, I focus on storytelling and consistency to leave a memorable impression.',
     'Motion graphics': 'I bring ideas to life through movement and sound. Using tools like After Effects and Premiere Pro, I transform static concepts into story driven animations.',
     'Video production': 'From concept to final edit, I handle the entire video pipeline—storyboarding, filming, editing, and post production to deliver narratives that captivate and inform.',
